@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b18">
+<meta name="description" content="ARISE — a real-life player progression system">
+<link rel="manifest" href="manifest.json">
+<title>ARISE — Player System</title>
+<style>
+:root{--bg:#020306;--panel:#07090e;--panel2:#0b0e17;--line:#16395b;--blue:#168cff;--cyan:#53eaff;--purple:#a56bff;--text:#edf7ff;--muted:#8193aa;--gold:#ffd77a;--green:#6bffcb;--red:#ff426d;--energy:#28bfff;--energy2:#7cecff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#111a2b 0,transparent 45%),linear-gradient(150deg,#010204,#05070c 55%,#010204);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer;color:var(--text);background:#0c2444;border:1px solid #23609a;border-radius:8px;padding:10px 13px;transition:.15s}button:hover{border-color:var(--cyan);box-shadow:0 0 14px #1b8dff55}button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}.primary{background:linear-gradient(110deg,#116ac6,#443ac0);border:1px solid #58baff;font-weight:750;box-shadow:0 0 18px #168dff22}.danger{border-color:#a33b56;background:#351226}.app{max-width:1220px;margin:auto;padding:14px}.top{position:relative;overflow:hidden;border:1px solid #2469a4;background:linear-gradient(120deg,#05070cfa,#0b1019fa);padding:17px;border-radius:13px;box-shadow:0 0 28px #008dff1a,inset 0 0 24px #188cff0b}.top:after{content:"";position:absolute;width:200px;height:200px;border:1px solid #2d96ff22;transform:rotate(45deg);right:-90px;top:-90px;box-shadow:0 0 0 20px #2d96ff08,0 0 0 40px #2d96ff06;pointer-events:none}.toprow{display:flex;align-items:center;gap:14px}.sigil{width:54px;height:54px;display:grid;place-items:center;border:1px solid var(--cyan);color:var(--cyan);font-size:28px;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%);background:#09294a;filter:drop-shadow(0 0 8px #00aaff)}.brand{font-weight:950;letter-spacing:3px;font-size:clamp(19px,3vw,29px);text-shadow:0 0 18px #329fff}.sub{font-size:11px;color:#75b8ed;letter-spacing:2px}.spacer{flex:1}.rank{color:var(--cyan);border:1px solid #2a93d8;background:#071a31;padding:5px 10px;letter-spacing:1.5px;font-weight:800;font-size:12px;box-shadow:0 0 12px #00baff20}.lv{font-size:25px;font-weight:900;text-align:right}.xpbar{height:8px;background:#0a1021;border:1px solid #1b3d63;margin-top:15px;overflow:hidden}.xpbar span{display:block;height:100%;background:linear-gradient(90deg,#138bff,#55eaff);box-shadow:0 0 12px #2bcaff;width:0}.xplabel{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:5px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:11px}.metric{border:1px solid #16406a;background:linear-gradient(140deg,#080b11,#040609);padding:12px;border-radius:9px}.metric label{display:block;color:#83add0;font-size:10px;letter-spacing:1.4px}.metric strong{display:block;font-size:24px;margin:2px 0;color:#f1fbff}.metric small{color:var(--muted);font-size:11px}.nav{display:flex;gap:6px;overflow-x:auto;padding:12px 0}.nav button{white-space:nowrap;flex:0 0 auto;background:#07152a;border-color:#183f68;color:#91b9dc;font-size:13px}.nav button.active{color:white;background:#104d85;border-color:#54c9ff;box-shadow:0 0 16px #007bff40}.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:12px}.col{display:flex;flex-direction:column;gap:12px}.card{border:1px solid #174477;background:linear-gradient(145deg,#080b11f7,#030509f7);padding:15px;border-radius:10px;box-shadow:inset 0 0 22px #1b8cff08}.card h2{font-size:15px;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 12px;color:#b9e5ff;display:flex;align-items:center;gap:8px}.card h2:before{content:"";width:3px;height:17px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}.muted{color:var(--muted)}.quest{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #153354}.quest:last-child{border-bottom:0}.quest input{width:19px;height:19px;accent-color:#40dfff;flex-shrink:0}.qbody{flex:1;min-width:0}.qname{font-weight:750}.qdesc{font-size:12px;color:var(--muted)}.xp{white-space:nowrap;color:var(--cyan);font-weight:800;font-size:13px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.space{justify-content:space-between}.notice{font-size:12px;color:var(--muted)}.stat{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #153354}.stat:last-child{border-bottom:0}.statcode{height:39px;display:grid;place-items:center;border:1px solid #22649b;color:var(--cyan);background:#0a2442;font-size:12px;font-weight:900}.statname{font-weight:750}.statdesc{font-size:11px;color:var(--muted)}.statval{font-size:18px;font-weight:900;color:#d8f4ff}.tag{display:inline-block;font-size:10px;color:var(--green);border:1px solid #287c6e;padding:3px 7px;border-radius:20px}.locked{color:#829bb3;border-color:#29415c}.skill{border:1px solid #183e64;padding:11px;border-radius:8px;margin:8px 0;background:#07152a}.skill label{display:flex;align-items:flex-start;gap:9px}.skill input{accent-color:var(--cyan);margin-top:4px}.skill strong{display:block}.achievement{display:flex;gap:10px;align-items:center;border:1px solid #183e64;padding:11px;border-radius:8px;margin:8px 0;background:#07152a}.achicon{font-size:22px}.grow{flex:1}.field{width:100%;padding:10px;color:var(--text);background:#030b17;border:1px solid #24527b;border-radius:7px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1}.hidden{display:none!important}.journal{min-height:130px;resize:vertical}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0b2945;border:1px solid var(--cyan);box-shadow:0 0 20px #009cff40;padding:11px 17px;border-radius:8px;z-index:10;max-width:90vw}.footer{text-align:center;color:#5d7f9e;font-size:11px;padding:18px 0}@media(max-width:760px){.app{padding:9px}.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.top{padding:12px}.metric strong{font-size:22px}.sigil{width:45px;height:45px}.lv{font-size:22px}.card{padding:12px}.nav{margin:0}.qdesc{max-width:250px}}
+
+/* SYSTEM-STYLE ANIMATIONS */
+@keyframes scan{0%{transform:translateY(-120%);opacity:0}15%{opacity:.35}100%{transform:translateY(420%);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985);filter:blur(3px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px #13aaff20,inset 0 0 12px #16aaff08}50%{box-shadow:0 0 26px #13aaff40,inset 0 0 20px #16aaff12}}
+@keyframes flicker{0%,100%{opacity:1}48%{opacity:.94}50%{opacity:.72}52%{opacity:1}}
+@keyframes alertIn{0%{opacity:0;transform:scale(.88);filter:blur(8px)}65%{opacity:1;transform:scale(1.025);filter:blur(0)}100%{transform:scale(1)}}
+@keyframes alertOut{to{opacity:0;transform:scale(.96) translateY(-8px)}}
+@keyframes lineSweep{from{left:-100%}to{left:100%}}
+@keyframes statGlow{0%,100%{border-color:#174477}50%{border-color:#4cdfff}}
+.top{animation:pulse 4s ease-in-out infinite}.brand{animation:flicker 7s infinite}.card{animation:rise .42s both;position:relative;overflow:hidden}.card:after{content:"";position:absolute;top:-120%;left:0;width:100%;height:35%;background:linear-gradient(180deg,transparent,#48dfff12,transparent);pointer-events:none;animation:scan 7s linear infinite}.metrics .metric{animation:rise .45s both}.metrics .metric:nth-child(2){animation-delay:.05s}.metrics .metric:nth-child(3){animation-delay:.1s}.metrics .metric:nth-child(4){animation-delay:.15s}
+.status-screen{border:1px solid #2b83c1;background:linear-gradient(135deg,#030509,#090d16 65%,#020306);padding:18px;border-radius:12px;position:relative;overflow:hidden;box-shadow:0 0 24px #009cff1c,inset 0 0 30px #078dff0a}.status-screen:before{content:"SYSTEM ONLINE";position:absolute;right:14px;top:12px;font-size:9px;letter-spacing:2px;color:#62eaff;opacity:.8}.status-screen:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#50e8ff08 50%,transparent 70%);transform:translateX(-100%);animation:lineSweep 6s linear infinite;pointer-events:none}.status-title{font-size:11px;letter-spacing:3px;color:#63dfff}.status-hero{display:flex;gap:20px;align-items:center;margin-top:14px}.level-orb{width:108px;height:108px;flex:0 0 108px;border:1px solid #4be7ff;border-radius:50%;display:grid;place-content:center;text-align:center;background:radial-gradient(circle,#155082 0,#07172e 66%);box-shadow:0 0 20px #1baaff30,inset 0 0 20px #3cdcff1a;position:relative}.level-orb:before{content:"";position:absolute;inset:7px;border:1px dashed #48dfff70;border-radius:50%;animation:spin 18s linear infinite}.level-orb strong{font-size:31px;line-height:1.05;color:#fff;text-shadow:0 0 13px #4cdfff}.level-orb small{font-size:9px;letter-spacing:2px;color:#6feaff}.hero-info{min-width:0;flex:1}.hero-rank{font-size:clamp(23px,4vw,36px);font-weight:950;letter-spacing:2px;text-shadow:0 0 15px #238fff}.hero-info p{margin:4px 0;color:#8eb7d7;font-size:12px}.attr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}.attr-tile{border:1px solid #1d5684;background:linear-gradient(145deg,#0a2543,#071426);padding:11px;border-radius:8px;min-width:0;animation:statGlow 5s ease-in-out infinite}.attr-tile:nth-child(2n){animation-delay:1.1s}.attr-head{display:flex;justify-content:space-between;align-items:center;gap:5px}.attr-code{font-size:10px;color:#5ce6ff;letter-spacing:1.5px;font-weight:900}.attr-value{font-size:25px;font-weight:900;color:#effbff;line-height:1.2}.attr-name{font-size:11px;font-weight:800;margin-top:5px}.attr-sub{font-size:10px;color:#7fa8c8;margin-top:3px}.attr-bar{height:3px;background:#142943;margin-top:9px;overflow:hidden}.attr-bar span{display:block;height:100%;background:linear-gradient(90deg,#187eff,#5df3ff);box-shadow:0 0 8px #5df3ff}.sys-overlay{position:fixed;inset:0;background:#020711c9;backdrop-filter:blur(7px);z-index:100;display:grid;place-items:center;padding:18px;animation:rise .18s ease-out}.sys-alert{width:min(520px,100%);background:linear-gradient(145deg,#080b11fa,#010204fc);border:1px solid #42dfff;box-shadow:0 0 0 1px #147ac055,0 0 42px #00aaff35,inset 0 0 35px #008cff0c;padding:24px;position:relative;overflow:hidden;animation:alertIn .42s cubic-bezier(.2,.9,.2,1) both}.sys-alert:before{content:"";position:absolute;inset:7px;border:1px solid #3bcfff27;pointer-events:none}.sys-alert:after{content:"";height:2px;position:absolute;top:0;left:-100%;width:100%;background:linear-gradient(90deg,transparent,#7df6ff,transparent);animation:lineSweep 1.6s ease-in-out infinite}.alert-label{font-size:10px;letter-spacing:4px;color:#6eeaff}.alert-heading{font-size:clamp(22px,5vw,31px);font-weight:950;letter-spacing:2px;margin:11px 0;color:#f3fcff;text-shadow:0 0 15px #26aaff70}.alert-body{color:#a8c9e5;line-height:1.65}.alert-reward{font-size:25px;color:#6beaff;font-weight:950;margin:14px 0;text-shadow:0 0 16px #00bfff60}.alert-actions{display:flex;justify-content:flex-end;margin-top:20px}.alert-dismiss{background:#0b3b61;border-color:#4beaff;letter-spacing:1.5px;font-weight:900}.toast{bottom:18px;letter-spacing:.7px;text-transform:uppercase;font-size:12px;animation:rise .25s both}.hidden{display:none!important}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes energyRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* MONARCH ENGINE: black glass, travelling lightning, level-reactive aura */
+body{--energy:#28bfff;--energy2:#a1f3ff;background:radial-gradient(ellipse at 50% -25%,color-mix(in srgb,var(--energy) 13%,transparent),transparent 54%),#010204;transition:background 1.4s ease}
+body.level-purple{--energy:#a56bff;--energy2:#e2b8ff}body.level-high{--energy:#ff3fe0;--energy2:#ffb6f5}
+.top,.card,.status-screen,.attr-tile,.metric{border-color:color-mix(in srgb,var(--energy) 43%,#090b10);}
+.top,.status-screen,.card{isolation:isolate}
+.top:before,.status-screen .energy-border{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;pointer-events:none;background:conic-gradient(from var(--spin-angle,0deg),transparent 0 8%,var(--energy) 11%,transparent 15% 29%,var(--energy2) 32%,transparent 36% 54%,var(--energy) 59%,transparent 63% 80%,var(--energy2) 83%,transparent 87%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:energyRotate 3.6s linear infinite;opacity:.88;filter:drop-shadow(0 0 4px var(--energy)) drop-shadow(0 0 12px var(--energy));z-index:2}
+@keyframes energyRotate{to{--spin-angle:360deg}}@property --spin-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+.top:after{border-color:color-mix(in srgb,var(--energy) 20%,transparent);box-shadow:0 0 0 20px color-mix(in srgb,var(--energy) 5%,transparent),0 0 0 40px color-mix(in srgb,var(--energy) 3%,transparent)}
+.status-screen{background:linear-gradient(135deg,#020306,#090d15 65%,#020306);box-shadow:0 0 25px color-mix(in srgb,var(--energy) 12%,transparent),inset 0 0 30px color-mix(in srgb,var(--energy) 4%,transparent)}
+.level-orb{border-color:var(--energy);background:radial-gradient(circle,color-mix(in srgb,var(--energy) 23%,#06070a) 0,#020306 70%);box-shadow:0 0 24px color-mix(in srgb,var(--energy) 40%,transparent),inset 0 0 24px color-mix(in srgb,var(--energy) 20%,transparent);animation:orbPulse 2.6s ease-in-out infinite}
+.level-orb:after{content:"";position:absolute;inset:-8px;border:1px solid color-mix(in srgb,var(--energy) 45%,transparent);border-radius:50%;clip-path:polygon(0 0,100% 0,100% 18%,88% 18%,88% 100%,0 100%);animation:spin 8s linear infinite}
+@keyframes orbPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.5)}}
+.attr-tile{background:linear-gradient(145deg,#090d14,#030407);box-shadow:inset 0 0 20px color-mix(in srgb,var(--energy) 5%,transparent),0 0 8px color-mix(in srgb,var(--energy) 5%,transparent)}
+.attr-code,.status-title,.hero-rank,.attr-bar span,.xpbar span{color:var(--energy2);background-image:linear-gradient(90deg,var(--energy),var(--energy2));}
+.attr-bar span,.xpbar span{background:linear-gradient(90deg,var(--energy),var(--energy2));box-shadow:0 0 12px var(--energy)}
+.sys-alert{border:1px solid var(--energy);background:linear-gradient(145deg,#080b11fa,#010204fc);box-shadow:0 0 0 1px color-mix(in srgb,var(--energy) 35%,transparent),0 0 55px color-mix(in srgb,var(--energy) 30%,transparent),inset 0 0 35px color-mix(in srgb,var(--energy) 8%,transparent)}
+.sys-alert:before{inset:5px;border:1px solid color-mix(in srgb,var(--energy) 40%,transparent)}
+.sys-alert:after{height:3px;background:linear-gradient(90deg,transparent,var(--energy2),white,var(--energy),transparent);filter:drop-shadow(0 0 8px var(--energy))}
+.sys-overlay{background:#000000e8;backdrop-filter:blur(10px)}.alert-label{color:var(--energy2)}.alert-reward{color:var(--energy2);text-shadow:0 0 20px var(--energy)}
+/* electric arc flicker on frames, not a single static line */
+@keyframes lightningFlash{0%,91%,94%,100%{opacity:.12}92%{opacity:1}93%{opacity:.28}95%{opacity:.9}96%{opacity:.2}}
+.top,.status-screen,.card{outline:1px solid color-mix(in srgb,var(--energy) 10%,transparent)}
+.top{box-shadow:0 0 30px color-mix(in srgb,var(--energy) 15%,transparent),inset 0 0 30px #ffffff02}
+.top:before,.card:before{animation:energyRotate 3.2s linear infinite,lightningFlash 5.7s steps(1,end) infinite}.card:before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:1px;pointer-events:none;background:conic-gradient(from var(--spin-angle,0deg),transparent 0 7%,var(--energy) 10%,transparent 13% 36%,var(--energy2) 39%,transparent 43% 68%,var(--energy) 72%,transparent 76% 91%,var(--energy2) 95%,transparent 98%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;z-index:3;opacity:.52;filter:drop-shadow(0 0 4px var(--energy))}
+/* Body training + penalty zone */
+.body-training{border:1px solid color-mix(in srgb,var(--energy) 58%,#10141c);background:linear-gradient(145deg,#090c12,#020305);padding:0;border-radius:10px;overflow:hidden;box-shadow:0 0 20px color-mix(in srgb,var(--energy) 9%,transparent)}
+.body-training summary{list-style:none;cursor:pointer;padding:15px;display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1.2px;color:#f0f8ff}
+.body-training summary::-webkit-details-marker{display:none}.body-training summary:after{content:"＋";margin-left:auto;color:var(--energy2);font-size:20px}.body-training[open] summary:after{content:"−"}
+.body-content{padding:0 15px 15px}.body-task{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid #151a24}.body-task input{accent-color:var(--energy);width:18px;height:18px;flex-shrink:0;margin-top:3px}.body-task strong{display:block}.body-task small{display:block;color:var(--muted);font-size:12px}.timer-line{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 11px;border:1px solid #29202b;background:#0a070c;color:var(--energy2);font-weight:850;letter-spacing:1px;margin:8px 0 12px}.penalty-zone{border:1px solid #ff426d;background:linear-gradient(135deg,#16050c,#050205);padding:14px;margin:12px 0;box-shadow:0 0 22px #ff17441c}.penalty-zone h3{color:#ff7894;margin:0 0 6px;letter-spacing:2px}.penalty-zone button{border-color:#ff426d;background:#300814}.body-training .tag{color:var(--energy2);border-color:var(--energy)}.danger-glitch{animation:dangerGlitch .18s steps(2,end) 5}@keyframes dangerGlitch{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px);filter:hue-rotate(35deg)}75%{transform:translateX(2px);filter:contrast(1.6)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+@media(max-width:520px){.status-hero{gap:12px}.level-orb{width:82px;height:82px;flex-basis:82px}.level-orb strong{font-size:25px}.attr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.status-screen{padding:13px}.sys-alert{padding:20px}.hero-info p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+.sigil{display:block;width:56px;height:96px;flex:0 0 56px;object-fit:cover;clip-path:none;border:1px solid var(--energy);border-radius:5px;background:#020306;filter:drop-shadow(0 0 8px var(--energy));box-shadow:0 0 18px color-mix(in srgb,var(--energy) 28%,transparent)}@media(max-width:760px){.sigil{width:48px;height:82px;flex-basis:48px}}\n
+/* THUNDER FX: multi-branch electric arcs and visible energy border */
+#thunder-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;opacity:.76;mix-blend-mode:screen}
+.top,.card,.status-screen,.attr-tile,.metric{position:relative}
+.top,.card,.status-screen{box-shadow:0 0 22px color-mix(in srgb,var(--energy) 15%,transparent),inset 0 0 24px #ffffff03}
+.top:before,.card:before{animation:energyRotate 2.6s linear infinite,lightningFlash 3.2s steps(1,end) infinite;opacity:.9;filter:drop-shadow(0 0 6px var(--energy)) drop-shadow(0 0 14px var(--energy))}
+@keyframes electricPulse{0%,100%{filter:brightness(1)}48%{filter:brightness(1.12)}50%{filter:brightness(1.8)}53%{filter:brightness(1.05)}}
+body.thunder-hit .top,body.thunder-hit .status-screen{animation:electricPulse .38s steps(2,end)}
+.audio-help{font-size:12px;color:var(--muted);margin:8px 0}
+
+/* Responsive layout repair + bright traveling electric borders */
+@media(min-width:761px){.app{width:min(100%,1400px);padding:18px}.layout{grid-template-columns:minmax(0,1.3fr) minmax(300px,.85fr)}}
+@media(max-width:760px){html,body{width:100%;overflow-x:hidden}.app{width:100%;max-width:100%;padding:8px}.toprow{gap:9px;align-items:center;flex-wrap:wrap}.sigil{width:42px;height:66px;flex:0 0 42px}.brand{font-size:clamp(17px,5vw,23px);letter-spacing:2px}.sub{font-size:9px;letter-spacing:1px}.toprow .spacer{display:none}.toprow>.rank,.toprow>div:last-child{margin-left:auto}.lv{font-size:20px}.metrics{gap:7px}.metric{padding:10px;min-width:0}.metric strong{font-size:20px}.nav{max-width:100%;padding:10px 0;scrollbar-width:thin}.nav button{font-size:12px;padding:9px 11px}.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}.col{min-width:0}.status-hero{align-items:center;gap:12px}.attr-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.attr-tile{padding:9px}.attr-sub{overflow-wrap:anywhere}.actions button{min-width:0}.quest{gap:8px}.xp{font-size:12px}.body-content{padding:0 10px 12px}}
+@media(max-width:380px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.status-hero{align-items:flex-start}.level-orb{width:70px;height:70px;flex-basis:70px}.level-orb strong{font-size:22px}.hero-rank{font-size:20px}.attr-value{font-size:22px}.toprow>div:last-child{width:auto}.actions{gap:6px}.actions button{flex-basis:100%}}
+.top:before,.card:before,.status-screen:before{will-change:transform;transform-origin:center;animation:energyRotate 5s linear infinite,lightningFlash 2.8s steps(1,end) infinite!important}
+#thunder-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80;opacity:.9;mix-blend-mode:screen}
+@media(prefers-reduced-motion:reduce){#thunder-canvas{display:none}}
+/* ELECTRIC BORDER REWORK: full-box current, no tiny isolated runner */
+.top:before,.card:before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;pointer-events:none;background:linear-gradient(135deg,var(--energy2),var(--energy),var(--energy2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.72;z-index:3;animation:borderCrackle .32s steps(2,end) infinite!important;filter:drop-shadow(0 0 5px var(--energy)) drop-shadow(0 0 13px var(--energy))}
+@keyframes borderCrackle{0%,100%{opacity:.58;filter:drop-shadow(0 0 4px var(--energy)) drop-shadow(0 0 10px var(--energy))}35%{opacity:.92;filter:drop-shadow(0 0 7px var(--energy2)) drop-shadow(0 0 17px var(--energy))}38%{opacity:.68}72%{opacity:1;filter:drop-shadow(0 0 9px var(--energy2)) drop-shadow(0 0 20px var(--energy))}}
+.top,.card,.status-screen,.attr-tile,.metric{scroll-margin-block:12px}
+@media(prefers-reduced-motion:reduce){.top:before,.card:before{animation:none!important;opacity:.9}}
+
+/* CALM AURA BORDER OVERRIDE */
+:root{--aura-speed:18s}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{position:relative;isolation:isolate}
+.top:before,.card:before,.status-screen .energy-border{animation:energyRotate 18s linear infinite!important;opacity:.22!important;filter:blur(.25px) drop-shadow(0 0 3px var(--energy))!important}
+.top:before,.card:before{background:conic-gradient(from var(--spin-angle,0deg),transparent 0 20%,color-mix(in srgb,var(--energy) 70%,transparent) 26%,transparent 33% 62%,color-mix(in srgb,var(--energy2) 55%,transparent) 69%,transparent 78% 100%)!important}
+.card:after{animation-duration:18s!important;opacity:.35}
+#thunder-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80;opacity:.58;mix-blend-mode:screen}
+@keyframes auraBreathe{0%,100%{box-shadow:0 0 10px color-mix(in srgb,var(--energy) 7%,transparent),inset 0 0 12px color-mix(in srgb,var(--energy) 2%,transparent)}50%{box-shadow:0 0 16px color-mix(in srgb,var(--energy) 12%,transparent),inset 0 0 16px color-mix(in srgb,var(--energy) 4%,transparent)}}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{animation:auraBreathe 8s ease-in-out infinite!important}
+@media(max-width:760px){#thunder-canvas{opacity:.38}.top,.card,.status-screen,.attr-tile,.metric,.body-training{animation:none!important}}
+@media(prefers-reduced-motion:reduce){#thunder-canvas{display:none!important}.top:before,.card:before,.status-screen .energy-border{animation:none!important}}
+
+/* ARISE AWAKENING THEME — flame-tipped frame, slow full-perimeter aura */
+:root{--flame-speed:7.5s}
+.brand{font-family:Georgia,'Times New Roman',serif;font-weight:600;letter-spacing:.42em;font-size:clamp(23px,3.8vw,34px);color:var(--energy2);text-shadow:0 0 8px var(--energy),0 0 24px color-mix(in srgb,var(--energy) 65%,transparent);}
+.sub{letter-spacing:1.8px;color:color-mix(in srgb,var(--energy2) 80%,white);}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{border-color:color-mix(in srgb,var(--energy) 55%,#15111e);}
+/* A continuous soft current around every complete frame */
+.top:before,.card:before,.status-screen:before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;z-index:4;background:conic-gradient(from var(--spin-angle,0deg),color-mix(in srgb,var(--energy2) 20%,transparent),var(--energy) 12%,color-mix(in srgb,var(--energy) 18%,transparent) 24%,var(--energy2) 34%,color-mix(in srgb,var(--energy) 14%,transparent) 50%,var(--energy) 66%,color-mix(in srgb,var(--energy2) 28%,transparent) 82%,var(--energy) 94%,color-mix(in srgb,var(--energy2) 20%,transparent));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.42;filter:drop-shadow(0 0 4px var(--energy)) drop-shadow(0 0 12px var(--energy));animation:energyRotate 11s linear infinite!important}
+/* Flame-like growth on the top and bottom edges, without chaotic lightning branches */
+.top:after{content:"";position:absolute;inset:-1px;border:0;border-radius:inherit;pointer-events:none;z-index:2;right:0;top:0;width:auto;height:auto;transform:none;box-shadow:none;background:radial-gradient(ellipse at 8% 0%,color-mix(in srgb,var(--energy) 65%,transparent),transparent 30%),radial-gradient(ellipse at 27% 0%,color-mix(in srgb,var(--energy2) 38%,transparent),transparent 25%),radial-gradient(ellipse at 58% 0%,color-mix(in srgb,var(--energy) 52%,transparent),transparent 30%),radial-gradient(ellipse at 88% 0%,color-mix(in srgb,var(--energy2) 42%,transparent),transparent 27%),radial-gradient(ellipse at 16% 100%,color-mix(in srgb,var(--energy2) 48%,transparent),transparent 30%),radial-gradient(ellipse at 48% 100%,color-mix(in srgb,var(--energy) 62%,transparent),transparent 28%),radial-gradient(ellipse at 82% 100%,color-mix(in srgb,var(--energy2) 46%,transparent),transparent 28%);opacity:.46;animation:flameBreath var(--flame-speed) ease-in-out infinite alternate}
+@keyframes flameBreath{0%{opacity:.24;filter:blur(2px)}50%{opacity:.5;filter:blur(4px)}100%{opacity:.32;filter:blur(2.5px)}}
+.card:after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.16;background:radial-gradient(ellipse at 10% 0%,color-mix(in srgb,var(--energy) 62%,transparent),transparent 22%),radial-gradient(ellipse at 48% 0%,color-mix(in srgb,var(--energy2) 34%,transparent),transparent 25%),radial-gradient(ellipse at 86% 0%,color-mix(in srgb,var(--energy) 52%,transparent),transparent 22%),radial-gradient(ellipse at 15% 100%,color-mix(in srgb,var(--energy2) 45%,transparent),transparent 23%),radial-gradient(ellipse at 53% 100%,color-mix(in srgb,var(--energy) 55%,transparent),transparent 26%),radial-gradient(ellipse at 90% 100%,color-mix(in srgb,var(--energy2) 36%,transparent),transparent 23%);animation:flameBreath 8s ease-in-out infinite alternate!important}
+.card>*{position:relative;z-index:1}.toprow,.top>.xpbar,.top>.xplabel{position:relative;z-index:1}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{animation:auraBreathe 8s ease-in-out infinite!important}
+#thunder-canvas{opacity:.3!important;mix-blend-mode:screen;}
+@media(max-width:760px){.brand{letter-spacing:.26em;font-size:23px}.sub{letter-spacing:1px;line-height:1.4}.top:after{opacity:.28}.status-hero{flex-wrap:nowrap}}
+.timer-line{margin:10px 0;border-color:color-mix(in srgb,var(--energy) 55%,#28202b);}
+.danger-alert{border-color:#ff4e8b!important;box-shadow:0 0 0 1px #ff4e8b55,0 0 45px #ff176a33,inset 0 0 30px #ff176a0c!important}.danger-alert .alert-label,.danger-alert .alert-heading{color:#ff8fba;text-shadow:0 0 14px #ff176a70}.danger-alert .alert-dismiss,.danger-alert button{border-color:#ff4e8b}
+.footer button{margin:8px auto 0;display:block;font-size:10px;padding:7px 10px}
+
+
+/* FINAL FIX — visible, calm, continuous aura perimeter */
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{position:relative;isolation:isolate;overflow:hidden;}
+.top:before,.card:before{content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;padding:2px!important;pointer-events:none!important;z-index:5!important;background:conic-gradient(from 0deg,var(--energy2) 0deg,transparent 35deg,transparent 70deg,var(--energy) 115deg,transparent 155deg,transparent 205deg,var(--energy2) 245deg,transparent 285deg,transparent 325deg,var(--energy) 360deg)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;-webkit-mask-composite:xor!important;mask-composite:exclude!important;opacity:.92!important;filter:drop-shadow(0 0 3px var(--energy)) drop-shadow(0 0 8px var(--energy))!important;animation:ariseAuraOrbit 18s linear infinite!important;}
+@keyframes ariseAuraOrbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.top:after{z-index:2!important;opacity:.52!important;animation:flameBreath 8s ease-in-out infinite alternate!important;}
+.card:after{z-index:0!important;opacity:.2!important;animation:flameBreath 9s ease-in-out infinite alternate!important;}
+.toprow,.top>.xpbar,.top>.xplabel,.card>*{position:relative;z-index:6;}
+#thunder-canvas{opacity:.28!important;mix-blend-mode:screen!important;}
+@media(prefers-reduced-motion:reduce){.top:before,.card:before{animation:none!important;opacity:.75!important}}
+
+
+/* LOW-LAG AURA PATCH: no canvas, no sweeping scan line, no blur/filter animation. */
+#thunder-canvas{display:none!important}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training,.brand,.level-orb:before,.status-screen:after,.card:after{animation:none!important;filter:none!important}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{box-shadow:inset 0 0 0 1px #171d2b,0 0 0 1px #121a29!important}
+.top,.card,.status-screen{position:relative;isolation:isolate;overflow:hidden}
+/* Crisp fixed border with a slow opacity-only energy pulse: no rotating layer or moving full-screen particles. */
+.top:before,.card:before,.status-screen:before{content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;padding:1px!important;pointer-events:none!important;z-index:5!important;background:linear-gradient(135deg,var(--energy2),#1a2233 22%,#17233a 42%,var(--energy) 60%,#151d2b 78%,var(--energy2))!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;-webkit-mask-composite:xor!important;mask-composite:exclude!important;opacity:.72!important;filter:none!important;animation:edgeGlow 5s ease-in-out infinite alternate!important}
+@keyframes edgeGlow{from{opacity:.5}to{opacity:1}}
+/* Ember points are confined to the header and fade in/out; they do not drift across the page. */
+.top:after{content:""!important;position:absolute!important;inset:0!important;right:0!important;top:0!important;width:auto!important;height:auto!important;border:0!important;border-radius:inherit!important;transform:none!important;pointer-events:none!important;z-index:2!important;background:radial-gradient(circle at 9% 8%,var(--energy2) 0,transparent 3%),radial-gradient(circle at 31% 96%,var(--energy) 0,transparent 4%),radial-gradient(circle at 73% 6%,#ff9a4a 0,transparent 2.5%),radial-gradient(circle at 91% 90%,var(--energy2) 0,transparent 3%)!important;opacity:.22!important;filter:none!important;animation:emberPulse 6s ease-in-out infinite alternate!important}
+@keyframes emberPulse{from{opacity:.12}to{opacity:.42}}
+.card:after{content:none!important}
+.toprow,.top>.xpbar,.top>.xplabel,.card>*{position:relative;z-index:6}
+@media(max-width:760px){.top:before,.card:before,.status-screen:before{animation:none!important;opacity:.8!important}.top:after{animation:none!important;opacity:.2!important}}
+@media(prefers-reduced-motion:reduce){.top:before,.card:before,.status-screen:before,.top:after{animation:none!important}}
+
+
+/* LOW-COST BORDER LIGHTING: only border/shadow values breathe; no canvas, blur, or moving scan layers. */
+@keyframes borderLightBreathe{0%,100%{border-color:#174477;box-shadow:0 0 7px #138bff10,inset 0 0 8px #138bff04}50%{border-color:#327eb1;box-shadow:0 0 13px #138bff20,inset 0 0 10px #138bff08}}
+.top,.card,.metric,.status-screen,.attr-tile,.body-training{animation:borderLightBreathe 5.5s ease-in-out infinite!important}
+.card:after,.status-screen:after,.top:before,.card:before,.status-screen .energy-border,#thunder-canvas{display:none!important;animation:none!important}
+.brand,.level-orb:before,.attr-tile:nth-child(2n){animation:none!important}
+.penalty-banner{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:12px;padding:13px 14px;border:1px solid #ff426d;border-left:5px solid #ff426d;border-radius:9px;background:linear-gradient(100deg,#260712,#10060b 70%,#070509);color:#ffe9ef;box-shadow:0 0 14px #ff174422,inset 0 0 14px #ff17440b;animation:penaltyPulse 2.8s ease-in-out infinite}
+.penalty-banner strong{display:block;color:#ff7894;letter-spacing:1.2px;font-size:13px}.penalty-banner small{display:block;color:#ffc1cf;font-size:12px;margin-top:2px}.penalty-banner button{flex:0 0 auto;border-color:#ff426d;background:#480d1c;color:#fff;font-weight:800}.penalty-banner button:hover{box-shadow:0 0 12px #ff426d55}
+@keyframes penaltyPulse{0%,100%{border-color:#a92d4c;box-shadow:0 0 7px #ff174415}50%{border-color:#ff5278;box-shadow:0 0 17px #ff174433}}
+@media(max-width:540px){.penalty-banner{align-items:flex-start;flex-direction:column}.penalty-banner button{width:100%}}
+@media(prefers-reduced-motion:reduce){.top,.card,.metric,.status-screen,.attr-tile,.body-training,.penalty-banner{animation:none!important}}
+</style></head>
+<body><main class="app">
+<header class="top">
+ <div class="toprow"><img class="sigil" src="logo-arise.jpg" alt="ARISE logo"><div><div class="brand">ARISE</div><div class="sub">THE SYSTEM HAS AWAKENED · PROVE YOUR WORTH</div></div><div class="spacer"></div><div><div class="rank" id="rank">E-RANK</div><div class="lv" id="level">LV. 1</div></div></div>
+ <div class="xpbar"><span id="xpfill"></span></div><div class="xplabel"><span id="xptext">0 / 100 XP</span><span id="tolevel">100 XP TO LEVEL UP</span></div>
+</header>
+<div class="metrics">
+ <div class="metric"><label>TOTAL EXPERIENCE</label><strong id="totalxp">0</strong><small>Lifetime XP</small></div>
+ <div class="metric"><label>DAILY REWARD</label><strong id="todayxp">0</strong><small id="todayquests">0 quests complete</small></div>
+ <div class="metric"><label>STAT POINTS</label><strong id="points">0</strong><small>Available to allocate</small></div>
+ <div class="metric"><label>STREAK</label><strong id="streak">0 DAYS</strong><small>Days with XP claimed</small></div>
+</div>
+<div id="penalty-banner" class="hidden" role="alert" aria-live="assertive"></div>
+<nav class="nav" id="nav">
+<button data-tab="dashboard" class="active">⌂ Status</button><button data-tab="quests">☑ Daily Quests</button><button data-tab="stats">✧ Attributes</button><button data-tab="skills">⌘ Skill Trees</button><button data-tab="bosses">⚔ Boss Room</button><button data-tab="achievements">♜ Achievements</button><button data-tab="journal">▤ Journal</button><button data-tab="settings">⚙ Save / Settings</button>
+</nav>
+<div id="view"></div>
+<div class="footer">THE SYSTEM REMEMBERS · LOCAL SAVE ACTIVE</div>
+</main><div id="toast" class="toast hidden"></div><div id="alert-root"></div>
+<script>
+'use strict';
+const QUESTS=[
+{id:'body',name:'Body Training',desc:'Planned workout, walk or suitable physical activity',xp:15,stat:'STR',icon:'✦'},
+{id:'study',name:'Knowledge Hunter',desc:'45 minutes of focused learning',xp:15,stat:'INT',icon:'⌘'},
+{id:'discipline',name:'Discipline Protocol',desc:'Complete your most important task',xp:15,stat:'DIS',icon:'◈'},
+{id:'coding',name:'Code & Build',desc:'Complete one focused 45-minute coding or AI session',xp:15,stat:'TEC',icon:'⌬'},
+{id:'career',name:'Career Intelligence',desc:'Learn a money or career skill',xp:10,stat:'ECO',icon:'◇'},
+{id:'social',name:'Social Development',desc:'Practise communication or meaningful connection',xp:10,stat:'SOC',icon:'⟡'},
+{id:'recovery',name:'Recovery Protocol',desc:'Prioritise sleep and recovery',xp:10,stat:'DIS',icon:'☾'}];
+const BODY_TASKS=[{id:'distance',name:'3 km walk or run',desc:'Choose a comfortable pace; walking counts. Stop if you feel unwell.',xp:0},{id:'pushups',name:'Push-ups',desc:'Start with 3 sets of 5–10, or wall/knee push-ups. Keep form comfortable.',xp:0},{id:'situps',name:'Sit-ups or crunches',desc:'2 sets of 8–12 controlled reps; choose crunches if sit-ups feel uncomfortable.',xp:0},{id:'plank',name:'Plank',desc:'2 rounds of 15–30 seconds; stop before form breaks.',xp:0},{id:'squats',name:'Bodyweight squats',desc:'2 sets of 8–12 controlled reps, within a comfortable range.',xp:0}];
+const WORKOUTS={'Full-body option':'2 rounds: 8 squats, 5–10 push-ups (wall/knee is fine), 10 glute bridges, 20-second plank. Rest between rounds.','Mobility option':'5–10 minutes of easy shoulder circles, hip hinges, calf raises and gentle stretches.','Low-energy option':'10-minute easy walk and light mobility. Recovery counts; do not push through pain.'};
+const ATTRS=[['STR','Strength','Fitness and physical capability'],['INT','Intelligence','Learning and problem-solving'],['DIS','Discipline','Consistency and follow-through'],['TEC','Coding & AI','Technical mastery and projects'],['ECO','Career & Money','Financial literacy and employability'],['SOC','Social Ability','Communication and relationships']];
+const TREES=[
+['STR · Physical',['Foundation: 3 weeks of safe, consistent activity','Strength: record progress on suitable exercises','Endurance: improve an appropriate activity benchmark']],
+['INT · Intelligence',['Focus: complete 5 distraction-free study sessions','Understanding: explain a topic in your own words','Mastery: solve practice questions without notes']],
+['DIS · Discipline',['Routine: establish a realistic daily plan','Consistency: complete priority tasks on 5 days in a week','Self-management: complete a weekly review']],
+['TEC · Coding & AI',['Python: use functions, lists and dictionaries','Data: clean a dataset and analyse it','Machine learning: train and evaluate a baseline model','Deployment: publish a working project']],
+['ECO · Career & Money',['Literacy: make a simple budget','Portfolio: document a project','Employability: prepare a résumé and explain your work']],
+['SOC · Social',['Communication: ask clear questions and listen','Confidence: initiate a friendly conversation','Leadership: coordinate a small group task']]];
+const ACHS=[['first','First Quest','Earn XP for the first time','✦'],['levelup','Awakening','Reach Level 2','⚡'],['builder','The Builder','Finish and demonstrate a coding feature','⌬'],['knowledge','Knowledge Hunter','Explain a topic without notes','⌘'],['consistency','Consistency','Complete priority tasks on five days','◈'],['social','Social Awakening','Practise a communication skill','⟡'],['boss','Boss Slayer','Clear a weekly boss challenge','⚔'],['monarch','Monarch Candidate','Reach Level 30 and show progress','♜']];
+const today=()=>new Date().toLocaleDateString('en-CA');
+const weekKey=()=>{let d=new Date(), jan=new Date(d.getFullYear(),0,1);return d.getFullYear()+'-'+Math.ceil((((d-jan)/86400000)+jan.getDay()+1)/7)};
+const fresh=()=>({xp:0,quests:{},claimed:[],stats:{STR:0,INT:0,DIS:0,TEC:0,ECO:0,SOC:0},skills:[],achievements:[],boss:{name:'Code Builder',done:false,claimedWeek:''},journal:[],focus:'Balanced Growth',claimHistory:[],questRewards:{},bodyTasks:{},penalty:null,soundOn:true,lastActiveDay:''});
+let S=fresh(),tab='dashboard';
+function load(){try{const x=localStorage.getItem('solo-system-v2');if(x)S={...fresh(),...JSON.parse(x)}}catch(e){toast('Local storage unavailable. Use Export Backup to protect progress.')}}
+function save(){try{localStorage.setItem('solo-system-v2',JSON.stringify(S))}catch(e){}renderHeader()}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function lv(){return Math.floor(S.xp/100)+1}
+function rank(){return S.xp<400?'E':S.xp<900?'D':S.xp<1400?'C':S.xp<1900?'B':S.xp<2900?'A':'S'}
+function earned(){return (lv()-1)*3}
+function spent(){return Object.values(S.stats).reduce((a,b)=>a+b,0)}
+function left(){return Math.max(0,earned()-spent())}
+function checked(){return S.quests[today()]||[]}
+function rewarded(){return (S.questRewards||{})[today()]||[]}
+function dailyXP(){return QUESTS.filter(q=>checked().includes(q.id)&&!rewarded().includes(q.id)).reduce((a,q)=>a+q.xp,0)}
+function dailyClaimedXP(){return QUESTS.filter(q=>rewarded().includes(q.id)).reduce((a,q)=>a+q.xp,0)}
+function claimed(){return QUESTS.every(q=>rewarded().includes(q.id))}
+function bodyChecked(){return S.bodyTasks[today()]||[]}
+function bodyComplete(){return BODY_TASKS.every(t=>bodyChecked().includes(t.id))}
+function localMidnight(){let d=new Date();d.setHours(24,0,0,0);return d}
+function clockText(){let ms=localMidnight()-new Date();if(ms<=0)return '00:00:00';let sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return [h,m,s].map(n=>String(n).padStart(2,'0')).join(':')}
+function themeLevel(){let l=lv(),b=document.body;b.classList.toggle('level-purple',l>=45&&l<75);b.classList.toggle('level-high',l>=75);let hue=l<30?198:l<60?198+((l-30)/30)*70:l<90?268+((l-60)/30)*75:343;let e=l<30?'#27baff':l<60?`hsl(${hue} 100% 70%)`:l<90?`hsl(${hue} 100% 72%)`:`hsl(${(hue+20)%360} 100% 72%)`;b.style.setProperty('--energy',e);b.style.setProperty('--energy2',l<30?'#b3f6ff':l<60?`hsl(${hue} 100% 84%)`:l<90?'#e9baff':'#ffc1f6');document.querySelector('meta[name="theme-color"]')?.setAttribute('content',l<30?'#020810':l<60?'#10051c':l<90?'#16051e':'#1c0315')}
+let lastSfxAt=0,appOpenPlayed=false;
+const alertAudio=new Audio('./alert.mp3');alertAudio.preload='auto';alertAudio.volume=.78;
+const questAudio=new Audio('./quest.mp3');questAudio.preload='auto';questAudio.volume=.82;
+function playAudio(audio){
+ try{audio.pause();audio.currentTime=0;const p=audio.play();if(p&&p.then)p.then(()=>{if(audio===alertAudio)appOpenPlayed=true;}).catch(()=>{});return true;}catch(e){return false}
+}
+function sfx(kind='tap'){
+ if(!S.soundOn||['tap','touch','check'].includes(kind))return;
+ const nowMs=performance.now();if(nowMs-lastSfxAt<140)return;lastSfxAt=nowMs;
+ if(kind==='quest'||kind==='checkbox'){playAudio(questAudio);return;}
+ playAudio(alertAudio);
+}
+// Play the tap sound after each enabled button's own action, so system alerts cannot silence it.
+document.addEventListener('click',e=>{
+ const button=e.target&&e.target.closest?e.target.closest('button'):null;
+ if(!button||button.disabled)return;
+ setTimeout(()=>{
+  if(!S.soundOn)return;
+  try{questAudio.pause();questAudio.currentTime=0;const p=questAudio.play();if(p&&p.catch)p.catch(()=>{});}catch(err){}
+ },0);
+},false);
+let thunderLoopStarted=false,scrollingUntil=0,scrollPaused=false,fxFrame=0;
+window.addEventListener('scroll',()=>{scrollPaused=true;scrollingUntil=performance.now()+180;},{passive:true});
+function triggerThunder(force=false){
+ // Performance mode: keep the CSS aura, but skip the continuous canvas effect loop.
+ if(force){document.body.classList.add('thunder-hit');setTimeout(()=>document.body.classList.remove('thunder-hit'),220)}
+ return;
+ const canvas=document.getElementById('thunder-canvas');if(!canvas)return;
+ if(force){document.body.classList.add('thunder-hit');setTimeout(()=>document.body.classList.remove('thunder-hit'),500)}
+ if(thunderLoopStarted)return;thunderLoopStarted=true;
+ const ctx=canvas.getContext('2d',{alpha:true});let dpr=1,lastFrame=0,particles=[];
+ function resize(){dpr=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.floor(innerWidth*dpr);canvas.height=Math.floor(innerHeight*dpr);canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+ resize();window.addEventListener('resize',resize,{passive:true});
+ const rand=(a,b)=>a+Math.random()*(b-a);
+ function pointOnRect(r,q){let w=r.width,h=r.height,p=2*(w+h);q=((q%p)+p)%p;if(q<w)return [r.left+q,r.top];q-=w;if(q<h)return [r.right,r.top+q];q-=h;if(q<w)return [r.right-q,r.bottom];q-=w;return [r.left,r.bottom-q]}
+ function frame(now){fxFrame=requestAnimationFrame(frame);if(now-lastFrame<45)return;lastFrame=now;ctx.clearRect(0,0,innerWidth,innerHeight);
+  // Pause during active scrolling; on resume all rectangles are freshly measured so the effect never trails behind.
+  if(now<scrollingUntil){scrollPaused=true;return} if(scrollPaused){scrollPaused=false;particles=[]}
+  const panels=[...document.querySelectorAll('.top,.card,.status-screen,.attr-tile,.metric,.body-training')].filter(el=>el.getClientRects().length).slice(0,14);
+  const energy=getComputedStyle(document.body).getPropertyValue('--energy').trim()||'#42caff';
+  panels.forEach((el,idx)=>{const r=el.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth||r.width<18||r.height<18)return;
+   const x=r.left+1,y=r.top+1,w=r.width-2,h=r.height-2,per=2*(w+h);if(per<80)return;
+   // Calm continuous aura: soft full perimeter plus one long, slowly circulating luminous wave.
+   ctx.save();ctx.shadowColor=energy;ctx.shadowBlur=7;ctx.strokeStyle=energy;ctx.globalAlpha=.16;ctx.lineWidth=1.4;ctx.strokeRect(x,y,w,h);ctx.restore();
+   const phase=(now*.012+idx*83)%per;const waveLen=Math.min(per*.44,Math.max(90,per*.22));
+   for(let layer=0;layer<3;layer++){ctx.beginPath();let steps=24;for(let i=0;i<=steps;i++){let q=(phase+waveLen*i/steps+layer*per/3)%per,[px,py]=pointOnRect({left:x,top:y,right:x+w,bottom:y+h,width:w,height:h},q);if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py)}ctx.strokeStyle=layer===0?'rgba(255,255,255,.72)':energy;ctx.lineWidth=layer===0?1.1:layer===1?2.5:5;ctx.globalAlpha=layer===0?.45:layer===1?.22:.07;ctx.shadowColor=energy;ctx.shadowBlur=layer===0?6:11;ctx.stroke()}
+   // Tiny dust motes drift gently along the border; no branches, jagged arcs or random explosive flashes.
+   if(particles.length<40&&Math.random()<.025)particles.push({id:idx,q:Math.random()*per,speed:rand(.06,.18),life:rand(100,220),age:0,size:rand(.6,1.5)});
+  });
+  for(let i=particles.length-1;i>=0;i--){let p=particles[i];p.age++;const el=panels[p.id],r=el?.getBoundingClientRect();if(!r||p.age>p.life){particles.splice(i,1);continue}p.q+=p.speed*3;const [px,py]=pointOnRect(r,p.q);const fade=Math.sin(Math.PI*p.age/p.life)*.38;ctx.beginPath();ctx.arc(px,py,p.size,0,Math.PI*2);ctx.fillStyle='rgba(210,225,255,'+fade+')';ctx.shadowColor=getComputedStyle(document.body).getPropertyValue('--energy');ctx.shadowBlur=5;ctx.fill();ctx.shadowBlur=0}
+ }
+ fxFrame=requestAnimationFrame(frame);
+}
+let firstAudioGesture=false;
+function tryAppOpenSound(){if(!appOpenPlayed&&S.soundOn)playAudio(alertAudio)}
+window.addEventListener('pointerdown',(e)=>{if(firstAudioGesture||!S.soundOn)return;const target=e.target;if(target&&target.closest&&target.closest('[data-quest],[data-bodytask]'))return;firstAudioGesture=true;tryAppOpenSound()},{passive:true});
+window.addEventListener('load',()=>{tryAppOpenSound()},{once:true});
+function checkDeadline(){let key=today();let prior=S.lastActiveDay||key;if(prior!==key){let done=(S.bodyTasks[prior]||[]);if(!BODY_TASKS.every(t=>done.includes(t.id))&&(!S.penalty||S.penalty.date!==key)){let loss=10+Math.floor(Math.random()*26);let actual=Math.min(S.xp,loss);S.xp-=actual;S.penalty={date:key,loss:actual,resolved:false,sourceDay:prior};save();setTimeout(()=>systemAlert('PENALTY ZONE ACTIVATED','Yesterday’s Body Training protocol was incomplete. A randomized '+actual+' XP penalty has been applied. Complete the safe Penalty Protocol below to unlock the system. Rest, illness, injury or unsafe conditions are valid reasons to choose a low-energy alternative.','−'+actual+' XP · PENALTY PROTOCOL REQUIRED'),300)}S.lastActiveDay=key;save()}else if(!S.lastActiveDay){S.lastActiveDay=key;save()}}
+function activePenalty(){return !!(S.penalty&&!S.penalty.resolved)}
+function resolvePenalty(){if(!activePenalty())return;S.penalty.resolved=true;save();sfx('level');render();systemAlert('PENALTY CLEARED','Protocol completed. The restriction is lifted. Reset, recover, and continue at a sustainable pace.','SYSTEM ACCESS RESTORED')}
+
+function streak(){let n=0,d=new Date();while(true){let k=d.toLocaleDateString('en-CA');if(!(S.claimHistory||[]).includes(k))break;n++;d.setDate(d.getDate()-1)}return n}
+function toast(s){let e=document.querySelector('#toast');e.textContent='▸ '+s;e.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>e.classList.add('hidden'),2600)}
+function systemAlert(title,body,reward=''){sfx(title.includes('PENALTY')?'penalty':title.includes('LEVEL UP')?'level':'alert');if(title.includes('LEVEL UP')||title.includes('PENALTY')||title.includes('ARISE'))triggerThunder(true);let root=document.querySelector('#alert-root');root.innerHTML=`<div class="sys-overlay" id="sys-overlay"><section class="sys-alert" role="dialog" aria-modal="true" aria-label="System notification"><div class="alert-label">✦ SYSTEM NOTIFICATION · PLAYER INTERFACE</div><div class="alert-heading">${esc(title)}</div><div class="alert-body">${esc(body)}</div>${reward?`<div class="alert-reward">${esc(reward)}</div>`:''}<div class="alert-actions"><button class="alert-dismiss" id="dismiss-alert">ACKNOWLEDGE ▸</button></div></section></div>`;let close=()=>{let box=document.querySelector('.sys-alert');if(box){box.style.animation='alertOut .18s forwards';setTimeout(()=>root.innerHTML='',180)}};document.querySelector('#dismiss-alert').onclick=()=>{sfx('open');close()};document.querySelector('#sys-overlay').onclick=e=>{if(e.target.id==='sys-overlay')close()};document.onkeydown=function handler(e){if(e.key==='Escape'){close();document.removeEventListener('keydown',handler)}}}
+function card(title,body,cls=''){return `<section class="card ${cls}"><h2>${title}</h2>${body}</section>`}
+function renderHeader(){themeLevel();document.querySelector('#rank').textContent=rank()+'-RANK';document.querySelector('#level').textContent='LV. '+lv();document.querySelector('#totalxp').textContent=S.xp;document.querySelector('#xpfill').style.width=(S.xp%100)+'%';document.querySelector('#xptext').textContent=(S.xp%100)+' / 100 XP';document.querySelector('#tolevel').textContent=(100-S.xp%100)+' XP TO LEVEL UP';document.querySelector('#todayxp').textContent=dailyClaimedXP();document.querySelector('#todayquests').textContent=checked().length+' quests complete';document.querySelector('#points').textContent=left();document.querySelector('#streak').textContent=streak()+' DAYS'}
+function questList(){return `<div class="timer-line daily-reset-line"><span>DAILY QUEST RESET</span><span id="daily-timer">${clockText()}</span></div>${QUESTS.map(q=>{let done=checked().includes(q.id),paid=rewarded().includes(q.id);return `<label class="quest"><input type="checkbox" data-quest="${q.id}" ${done?'checked':''} ${paid||activePenalty()?'disabled':''}><div class="qbody"><div class="qname">${q.icon} ${q.name} ${paid?'<span class="tag">REWARD SEALED ✓</span>':''}</div><div class="qdesc">${q.desc}</div></div><span class="xp">+${q.xp} XP</span></label>`}).join('')}`}
+function claimHTML(){let amount=dailyXP();if(amount>0)return `<div class="actions"><button class="primary" id="claim" ${activePenalty()?'disabled':''}>⚡ CLAIM SELECTED QUEST XP · +${amount}</button><button id="clearchecks" ${activePenalty()?'disabled':''}>Clear unclaimed checks</button></div><p class="notice">You can claim multiple times per day. Each quest pays XP once; claimed quests lock individually, not the entire checklist.</p>`;return `<div class="tag">${claimed()?'ALL DAILY QUEST REWARDS CLAIMED ✓':'SELECT A COMPLETED QUEST TO CLAIM XP'}</div>`}
+function bodyTrainingHTML(){let tasks=BODY_TASKS.map(t=>`<label class="body-task"><input type="checkbox" data-bodytask="${t.id}" ${bodyChecked().includes(t.id)?'checked':''} ${activePenalty()?'disabled':''}><span><strong>${t.name}</strong><small>${t.desc}</small></span></label>`).join('');let pen=activePenalty()?`<div class="penalty-zone"><h3>⚠ PENALTY ZONE · ACCESS LOCKED</h3><p>Random XP penalty applied: <strong>−${S.penalty.loss} XP</strong>. Complete one safe reset protocol to continue.</p><label class="body-task"><input type="checkbox" id="penalty-confirm"><span><strong>Penalty Protocol</strong><small>Choose a safe option: 5 minutes of room/desk reset + a short reflection, OR gentle mobility, OR an easy walk if safe. Hydrate and do not exercise through pain or illness.</small></span></label><button id="resolve-penalty" disabled>COMPLETE PENALTY PROTOCOL</button></div>`:'';return `<details class="body-training" id="body-training" ${activePenalty()?'open':''}><summary>⚡ BODY TRAINING · DAILY PROTOCOL <span class="tag">${bodyChecked().length}/${BODY_TASKS.length}</span></summary><div class="body-content"><p class="notice">Scale reps to your current ability. The 3 km target can be a walk. Rest when needed; pain, illness and unsafe weather always override the quest.</p>${tasks}<div class="row space" style="margin-top:12px"><label class="qname" for="workout-choice">WORKOUT OPTION</label><select id="workout-choice" class="field" style="max-width:58%">${Object.keys(WORKOUTS).map(x=>`<option>${x}</option>`).join('')}</select></div><div id="workout-desc" class="notice" style="margin-top:8px">${WORKOUTS['Full-body option']}</div><div class="actions"><button id="workout-done" class="primary" ${activePenalty()?'disabled':''}>✓ MARK WORKOUT OPTION DONE</button><button id="body-reset">RESET BODY CHECKS</button></div><p class="notice">Complete the five baseline tasks to mark Body Training as complete for daily XP. The optional workout is an extra choice, not a requirement on top of everything.</p>${pen}</div></details>`}
+function dashboard(){return `<div class="col">
+<section class="status-screen"><div class="status-title">[ PLAYER RECORD // CLASSIFIED ]</div><div class="status-hero"><div class="level-orb"><small>LEVEL</small><strong>${lv()}</strong><small>${rank()}-RANK</small></div><div class="hero-info"><div class="hero-rank">${rank()}-RANK AWAKENED</div><p>IDENTITY: UNDISCLOSED · PROTOCOL: ACTIVE</p><p>${S.xp%100} / 100 XP TO NEXT LEVEL</p><div class="xpbar"><span style="width:${S.xp%100}%"></span></div><p style="margin-top:8px">${left()} STAT POINTS AVAILABLE · ${S.xp} TOTAL XP</p></div></div><div class="attr-grid">${ATTRS.map(([id,n,d])=>{let val=1+(S.stats[id]||0),pct=Math.min(100,Math.round(val/20*100));return `<div class="attr-tile"><div class="attr-head"><span class="attr-code">${{STR:'ᛉ',INT:'ᚱ',DIS:'⟐',TEC:'⌬',ECO:'◈',SOC:'⟡'}[id]||"✦"}</span><span class="muted" style="font-size:9px">ATTRIBUTE</span></div><div class="attr-value">${val}</div><div class="attr-name">${n}</div><div class="attr-sub">${d}</div><div class="attr-bar"><span style="width:${pct}%"></span></div></div>`}).join('')}</div><div class="actions"><button class="primary" data-goto="stats">✧ ALLOCATE STAT POINTS</button><button data-goto="quests">☑ OPEN QUESTS</button></div></section>
+<div class="layout"><div class="col">
+${card('TRANSMISSION // 001',`<h3 style="font-size:20px;color:var(--energy2)">You have been noticed.</h3><p class="muted">Potential is meaningless without proof. Complete your trials, earn your evolution, and let no number define your limits. Recovery is part of the protocol.</p><div class="row"><span class="tag">DIRECTIVE: ${esc(S.focus)}</span><span class="tag">THREAT LEVEL: RISING</span></div>`)}
+${card('DAILY QUEST BOARD',bodyTrainingHTML()+questList()+claimHTML())}
+${card('HUNTER LOG',`<div class="row space"><div><strong>${checked().length} / ${QUESTS.length}</strong><div class="muted">Daily quests checked</div></div><div style="min-width:45%;flex:1"><div class="xpbar"><span style="width:${checked().length/QUESTS.length*100}%"></span></div></div></div><p class="notice">Check a quest only after completing it. Claiming XP locks today's checklist to prevent accidental double claims.</p>`)}
+</div><div class="col">
+${card('SYSTEM RECORD',`<div class="stat"><div class="statcode">XP</div><div><div class="statname">Lifetime Experience</div><div class="statdesc">Total earned through completed quests</div></div><div class="statval">${S.xp}</div></div><div class="stat"><div class="statcode">DAY</div><div><div class="statname">Daily Quest Progress</div><div class="statdesc">${checked().length} of ${QUESTS.length} completed</div></div><div class="statval">${Math.round(checked().length/QUESTS.length*100)}%</div></div><div class="stat"><div class="statcode">🔥</div><div><div class="statname">Consistency Streak</div><div class="statdesc">Days with XP claimed</div></div><div class="statval">${streak()}</div></div>`)}
+${card('WEEKLY BOSS',`<div class="qname" style="font-size:18px">${esc(S.boss.name)}</div><p class="muted">${bossDesc()}</p><div class="row space"><span class="xp">REWARD +25 XP</span><button data-goto="bosses">OPEN BOSS ROOM →</button></div>`)}
+${card('SYSTEM TIP',`<p class="muted">Consistency beats intensity. Choose sustainable tasks, protect your sleep, and let real evidence—not the number on the screen—measure your growth.</p>`)}
+</div></div></div>`}
+function questsPage(){return card('DAILY QUESTS',`<p class="muted">TRIAL LOG // Mark only completed objectives. Experience is granted once per objective each day.</p>${bodyTrainingHTML()}${questList()}${claimHTML()}`)}
+function statsPage(){return card('ATTRIBUTE ALLOCATION',`<div class="row space"><span class="muted">Available points</span><strong style="font-size:24px;color:var(--gold)">${left()}</strong></div><p class="notice">Gain 3 points each time you level up. Starting attribute level is 1.</p>`+ATTRS.map(([id,n,d])=>`<div class="stat"><div class="statcode">${{STR:'ᛉ',INT:'ᚱ',DIS:'⟐',TEC:'⌬',ECO:'◈',SOC:'⟡'}[id]||"✦"}</div><div><div class="statname">${n}</div><div class="statdesc">${d}</div><div class="notice">${S.stats[id]||0} points invested</div></div><div style="text-align:right"><div class="statval">Lv. ${1+(S.stats[id]||0)}</div><button class="small" data-alloc="${id}" ${left()===0?'disabled':''}>+1</button></div></div>`).join('')+`<p class="notice">Stats are motivational game attributes, not a scientific score.</p>`)}
+function skillsPage(){return `<div class="card"><h2>SKILL TREES</h2><p class="muted">Unlock milestones by doing the work in real life. Ticking these is a record, not an automatic skill boost.</p>${TREES.map(([name,steps])=>`<div style="margin-top:17px"><h3 style="color:var(--cyan)">${name}</h3>${steps.map((step,i)=>{let id=name+'::'+step,done=S.skills.includes(id);return `<div class="skill"><label><input type="checkbox" data-skill="${esc(id)}" ${done?'checked':''} ${activePenalty()?'disabled':''}><span><strong>${esc(step)}</strong><small class="muted">${done?'MILESTONE UNLOCKED':'MILESTONE '+(i+1)}</small></span></label></div>`}).join('')}</div>`).join('')}</div>`}
+function bossDesc(){return ({'Code Builder':'Finish and demonstrate one working project feature.','Knowledge Keeper':'Explain a topic and solve practice questions without notes.','Discipline Trial':'Complete your priority task on five days this week.','Social Challenge':'Practise a communication skill and reflect on what you learned.','Strength Trial':'Complete a safe, suitable strength-training session or bodyweight routine. Prioritise good form, rest when needed, and never push through pain.'})[S.boss.name]}
+function bossesPage(){return card('WEEKLY BOSS ROOM',`<p class="muted">Select one boss. Complete the real-world condition and keep evidence before claiming the reward.</p><select id="bossselect" class="field">${['Code Builder','Knowledge Keeper','Discipline Trial','Social Challenge','Strength Trial'].map(x=>`<option ${x===S.boss.name?'selected':''}>${x}</option>`).join('')}</select><div style="padding:16px 0"><div class="sub">TARGET</div><h3 style="font-size:21px;margin:5px 0">${esc(S.boss.name)}</h3><p>${bossDesc()}</p><div class="xp">REWARD · +25 XP</div></div><label class="quest"><input type="checkbox" id="bossdone" ${S.boss.done?'checked':''} ${S.boss.claimedWeek===weekKey()||activePenalty()?'disabled':''}><div class="qbody"><div class="qname">Boss condition completed</div><div class="qdesc">I completed the task and can show evidence.</div></div></label><div class="actions"><button class="primary" id="bossclaim" ${!S.boss.done||S.boss.claimedWeek===weekKey()||activePenalty()?'disabled':''}>CLAIM BOSS REWARD</button></div><p class="notice">One reward per week. No penalties for missing a boss.</p>${S.boss.claimedWeek===weekKey()?'<div class="tag">THIS WEEK’S BOSS REWARD CLAIMED ✓</div>':''}`)}
+function automaticAchievements(){
+ const skillIds=(S.skills||[]).map(x=>String(x).toLowerCase());
+ const completedDays=new Set(Object.entries(S.quests||{}).filter(([day,ids])=>Array.isArray(ids)&&ids.length>0).map(([day])=>day));
+ Object.entries(S.bodyTasks||{}).forEach(([day,ids])=>{if(Array.isArray(ids)&&ids.length)completedDays.add(day)});
+ const bossCleared=!!(S.boss&&S.boss.claimedWeek);
+ return {
+  first:S.xp>0,
+  levelup:lv()>=2,
+  builder:skillIds.some(x=>x.startsWith('tec · coding & ai::')||x.includes('deployment: publish a working project')),
+  knowledge:skillIds.some(x=>x.startsWith('int · intelligence::')||x.includes('mastery: solve practice questions')),
+  consistency:completedDays.size>=5,
+  social:skillIds.some(x=>x.startsWith('soc · social::')||x.includes('communication: ask clear questions')),
+  boss:bossCleared,
+  monarch:lv()>=30
+ };
+}
+function achievementsPage(){const unlocked=automaticAchievements();return card('ACHIEVEMENT ARCHIVE',`<p class="muted">Achievements unlock automatically from your recorded progress. No manual claiming required. Some real-world milestones are detected through your quests and skill-tree records.</p>`+ACHS.map(([id,name,desc,icon])=>{let ok=!!unlocked[id];return `<div class="achievement"><div class="achicon">${ok?'🏅':'◇'}</div><div class="grow"><strong>${icon} ${name}</strong><div class="qdesc">${desc}</div></div>${ok?'<span class="tag">UNLOCKED</span>':'<span class="tag locked">LOCKED</span>'}</div>`}).join(''))}
+
+function journalPage(){return card('HUNTER JOURNAL',`<p class="muted">Log a win, a challenge and your next action. Entries are saved on this device.</p><textarea id="journaltext" class="field journal" placeholder="Today's wins… What I learned… What challenged me… Next quest…"></textarea><div class="actions"><button class="primary" id="savejournal">SAVE ENTRY</button><button id="exportjournal">EXPORT JOURNAL</button></div><h3 style="margin-top:22px">PREVIOUS ENTRIES</h3>${(S.journal||[]).slice().reverse().map(j=>`<div class="achievement"><div class="grow"><strong>${esc(j.date)}</strong><div style="white-space:pre-wrap;margin-top:5px">${esc(j.text)}</div></div><button class="small danger" data-deljournal="${j.id}">Delete</button></div>`).join('')||'<p class="muted">No entries yet.</p>'}`)}
+
+function levelResetWarning(){
+ sfx('alert');const root=document.querySelector('#alert-root');root.innerHTML=`<div class="sys-overlay" id="level-reset-overlay"><section class="sys-alert danger-alert" role="dialog" aria-modal="true"><div class="alert-label">SYSTEM WARNING · IRREVERSIBLE COMMAND</div><div class="alert-heading">RESET THE PLAYER?</div><div class="alert-body">Your current level is ${lv()}. This command will erase your XP and allocated attribute points, returning you to Level 1. Your journal, skill records, achievements, and daily checklist will remain.</div><div class="alert-actions"><button id="cancel-level-reset">ABORT</button><button id="continue-level-reset" class="danger">PROCEED</button></div></section></div>`;
+ document.querySelector('#cancel-level-reset').onclick=()=>{sfx('touch');root.innerHTML='';};document.querySelector('#continue-level-reset').onclick=()=>levelResetFinal();
+}
+function levelResetFinal(){
+ sfx('alert');const root=document.querySelector('#alert-root');root.innerHTML=`<div class="sys-overlay" id="level-reset-final-overlay"><section class="sys-alert danger-alert" role="dialog" aria-modal="true"><div class="alert-label">FINAL AUTHORIZATION · SECOND WARNING</div><div class="alert-heading">CONFIRM ERASURE</div><div class="alert-body">This is your final confirmation. Player Level and XP will return to zero progress. Allocated attribute points will also be cleared. This cannot be undone unless you previously exported a backup.</div><div class="alert-actions"><button id="cancel-level-reset-final">KEEP MY PROGRESS</button><button id="confirm-level-reset-final" class="danger">ERASE LEVEL DATA</button></div></section></div>`;
+ document.querySelector('#cancel-level-reset-final').onclick=()=>{sfx('touch');root.innerHTML='';};document.querySelector('#confirm-level-reset-final').onclick=()=>{S.xp=0;S.stats={STR:0,INT:0,DIS:0,TEC:0,ECO:0,SOC:0};save();root.innerHTML='';tab='dashboard';render();sfx('alert');systemAlert('PLAYER REINITIALIZED','Your level has been reset. The system retains your recorded memories, but your power must be rebuilt.','LEVEL 1 · XP 0');};
+}
+function settingsPage(){return card('SAVE & SETTINGS',`<p>Your progress saves in this browser on this device. Use a backup to move progress between devices.</p><div class="actions"><button class="primary" id="exportbackup">⬇ EXPORT BACKUP (.JSON)</button><label for="importbackup" style="flex:1"><span style="display:block;text-align:center;cursor:pointer" class="field">⬆ IMPORT BACKUP</span></label><input id="importbackup" type="file" accept=".json,application/json" class="hidden"></div><hr style="border-color:var(--line);margin:18px 0"><label class="body-task"><input type="checkbox" id="sound-toggle" ${S.soundOn?'checked':''}><span><strong>System sound effects</strong><small>Alert sound for app opening and system notifications; quest sound for every button tap and checkbox change.</small></span></label><div class="actions"><button id="test-sound" class="primary">▶ TEST ALERT SOUND</button></div><p class="audio-help">Audio: alert.mp3 is used for app opening and system alerts; quest.mp3 is used for all enabled button taps and checkbox changes.</p><label class="qname" for="focus">Current focus</label><select id="focus" class="field" style="margin-top:7px">${['Balanced Growth','Physical Development','Intelligence & Study','Coding & AI','Career & Money','Social Confidence'].map(x=>`<option ${S.focus===x?'selected':''}>${x}</option>`).join('')}</select><div class="actions"><button id="reset-level" class="danger">RESET PLAYER LEVEL · TWO WARNINGS</button><button id="reset" class="danger">RESET ALL PROGRESS</button></div><p class="notice" style="margin-top:15px">For use on another device, export the JSON backup here, transfer it to that device, open this app and import it. Import replaces current local data. This version does not cloud-sync automatically.</p>`)}
+function render(){let bodyWasOpen=!!document.querySelector('#body-training')?.open;renderHeader();const pb=document.querySelector('#penalty-banner');if(pb){pb.classList.toggle('hidden',!activePenalty());pb.className=activePenalty()?'penalty-banner':'hidden';pb.innerHTML=activePenalty()?`<div><strong>⚠ PENALTY QUEST ACTIVE · −${S.penalty.loss} XP</strong><small>Quest checkboxes and XP rewards are paused. Other pages remain accessible. Complete the safe protocol to resume.</small></div><button type="button" id="visit-penalty">VISIT PENALTY ▸</button>`:'';}document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.disabled=false});let views={dashboard,quests:questsPage,stats:statsPage,skills:skillsPage,bosses:bossesPage,achievements:achievementsPage,journal:journalPage,settings:settingsPage};document.querySelector('#view').innerHTML=views[tab]();let newBody=document.querySelector('#body-training');if(newBody&&(bodyWasOpen||activePenalty()))newBody.open=true;bind()}
+function download(name,data,type){let blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function bind(){
+ document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();sfx('tap')});
+ let vp=document.querySelector('#visit-penalty');if(vp)vp.onclick=()=>{tab='quests';render();const d=document.querySelector('#body-training');if(d)d.open=true;document.querySelector('.penalty-zone')?.scrollIntoView({behavior:'smooth',block:'center'});sfx('penalty')};
+ let bodyPanel=document.querySelector('#body-training');if(bodyPanel)bodyPanel.addEventListener('toggle',()=>{if(bodyPanel.open)sfx('alert')});
+ document.querySelectorAll('[data-bodytask]').forEach(el=>el.onchange=()=>{let a=bodyChecked();S.bodyTasks[today()]=el.checked?[...new Set([...a,el.dataset.bodytask])]:a.filter(x=>x!==el.dataset.bodytask);sfx('quest');if(bodyComplete()){S.quests[today()]=[...new Set([...(S.quests[today()]||[]),'body'])];sfx('claim');setTimeout(()=>systemAlert('BODY PROTOCOL COMPLETE','All five baseline body tasks have been recorded. Remember: consistency and safe form matter more than speed.','STRENGTH QUEST READY'),100)}save();render()});
+ let wc=document.querySelector('#workout-choice');if(wc)wc.onchange=()=>{document.querySelector('#workout-desc').textContent=WORKOUTS[wc.value];sfx('tap')};
+ let wd=document.querySelector('#workout-done');if(wd)wd.onclick=()=>{sfx('claim');systemAlert('WORKOUT OPTION LOGGED','You selected: '+(document.querySelector('#workout-choice')?.value||'Workout')+'. Use this as an optional routine and scale it to your ability.','BONUS TRAINING RECORDED')};
+ let br=document.querySelector('#body-reset');if(br)br.onclick=()=>{if(confirm('Clear today’s body-training checks?')){S.bodyTasks[today()]=[];if(S.quests[today()])S.quests[today()]=S.quests[today()].filter(x=>x!=='body');save();render()}};
+ let pc=document.querySelector('#penalty-confirm'),pr=document.querySelector('#resolve-penalty');if(pc&&pr)pc.onchange=()=>{pr.disabled=!pc.checked};if(pr)pr.onclick=()=>{if(pc?.checked)resolvePenalty()};
+ document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>{tab=b.dataset.goto;render();sfx('tap')});
+ document.querySelectorAll('[data-quest]').forEach(el=>el.onchange=()=>{if(el.dataset.quest==='body'&&el.checked&&!bodyComplete()){el.checked=false;toast('COMPLETE THE BODY TRAINING BASELINE FIRST');sfx('penalty');return}let arr=checked();S.quests[today()]=el.checked?[...new Set([...arr,el.dataset.quest])]:arr.filter(x=>x!==el.dataset.quest);save();render();sfx('quest')});
+ let c=document.querySelector('#claim');if(c)c.onclick=()=>{if(activePenalty()){toast('XP CLAIMS PAUSED · COMPLETE THE PENALTY PROTOCOL');return}let selected=QUESTS.filter(q=>checked().includes(q.id)&&!rewarded().includes(q.id));if(!selected.length)return;let amount=selected.reduce((a,q)=>a+q.xp,0),oldLevel=lv();S.xp+=amount;S.questRewards=S.questRewards||{};S.questRewards[today()]=[...new Set([...rewarded(),...selected.map(q=>q.id)])];S.claimed=[...new Set([...(S.claimed||[]),today()])];S.claimHistory=[...new Set([...(S.claimHistory||[]),today()])];save();render();sfx(lv()>oldLevel?'level':'claim');if(lv()>oldLevel)systemAlert('LEVEL UP!','Quest rewards increased your Hunter Level. Three stat points are now available to allocate.','LEVEL '+oldLevel+'  →  LEVEL '+lv()+'  ·  +3 STAT POINTS');else systemAlert('QUEST REWARDS ACQUIRED','XP awarded for '+selected.length+' quest'+(selected.length===1?'':'s')+'. Other unclaimed quests remain available.','+'+amount+' XP ACQUIRED')};
+ let clear=document.querySelector('#clearchecks');if(clear)clear.onclick=()=>{S.quests[today()]=checked().filter(id=>rewarded().includes(id));save();render()};
+ document.querySelectorAll('[data-alloc]').forEach(b=>b.onclick=()=>{if(left()>0){S.stats[b.dataset.alloc]=(S.stats[b.dataset.alloc]||0)+1;save();render()}});
+ document.querySelectorAll('[data-skill]').forEach(el=>el.onchange=()=>{if(activePenalty()){el.checked=S.skills.includes(el.dataset.skill);return}S.skills=el.checked?[...new Set([...S.skills,el.dataset.skill])]:S.skills.filter(x=>x!==el.dataset.skill);save();render()});
+ let bs=document.querySelector('#bossselect');if(bs)bs.onchange=()=>{S.boss.name=bs.value;S.boss.done=false;save();render()};
+ let bd=document.querySelector('#bossdone');if(bd)bd.onchange=()=>{if(activePenalty()){bd.checked=!!S.boss.done;return}S.boss.done=bd.checked;save();render()};
+ let bc=document.querySelector('#bossclaim');if(bc)bc.onclick=()=>{if(activePenalty()){toast('XP REWARDS PAUSED DURING PENALTY');return}if(S.boss.done&&S.boss.claimedWeek!==weekKey()){let oldLevel=lv();S.xp+=25;S.boss.claimedWeek=weekKey();save();render();sfx(lv()>oldLevel?'level':'claim');if(lv()>oldLevel)systemAlert('LEVEL UP!','The weekly boss reward pushed your level higher. Three stat points are now available.','LEVEL '+oldLevel+'  →  LEVEL '+lv());else systemAlert('BOSS DEFEATED','You completed your weekly real-life challenge. Your record has been updated.','+25 XP ACQUIRED')}};
+ let sj=document.querySelector('#savejournal');if(sj)sj.onclick=()=>{let text=document.querySelector('#journaltext').value.trim();if(text){S.journal.push({id:Date.now().toString(),date:today(),text});save();render();toast('JOURNAL ENTRY SAVED')}};
+ let ej=document.querySelector('#exportjournal');if(ej)ej.onclick=()=>download('solo-system-journal.txt',S.journal.map(j=>j.date+'\n'+j.text).join('\n\n'),'text/plain');
+ document.querySelectorAll('[data-deljournal]').forEach(b=>b.onclick=()=>{S.journal=S.journal.filter(j=>j.id!==b.dataset.deljournal);save();render()});
+ let ex=document.querySelector('#exportbackup');if(ex)ex.onclick=()=>download('solo-system-backup.json',JSON.stringify(S,null,2),'application/json');
+ let im=document.querySelector('#importbackup');if(im)im.onchange=async()=>{if(!im.files[0])return;try{let x=JSON.parse(await im.files[0].text());if(typeof x.xp!=='number'||!x.stats||!x.quests)throw Error('invalid');S={...fresh(),...x};save();render();toast('BACKUP IMPORTED')}catch(e){alert('This backup file is not valid.')}}; 
+ let st=document.querySelector('#sound-toggle');if(st)st.onchange=()=>{S.soundOn=st.checked;save();if(S.soundOn){sfx('open');toast('SYSTEM AUDIO ENABLED')}};let ts=document.querySelector('#test-sound');if(ts)ts.onclick=()=>{S.soundOn=true;if(st)st.checked=true;save();sfx('alert');toast('ALERT SOUND · alert.mp3')};
+ let f=document.querySelector('#focus');if(f)f.onchange=()=>{S.focus=f.value;save();render()};
+ let rl=document.querySelector('#reset-level');if(rl)rl.onclick=levelResetWarning;let r=document.querySelector('#reset');if(r)r.onclick=()=>{systemAlert('TOTAL PURGE WARNING','This will erase XP, attributes, quests, journal, achievements and all locally saved player data. Export a backup before continuing.','SECOND CONFIRMATION REQUIRED');setTimeout(()=>{const root=document.querySelector('#alert-root');const btn=document.createElement('button');btn.textContent='CONFIRM TOTAL PURGE';btn.className='danger';btn.onclick=()=>{if(confirm('FINAL WARNING: erase ALL Solo System data on this device?')){S=fresh();save();tab='dashboard';render();root.innerHTML='';systemAlert('SYSTEM PURGED','All local player data has been erased. The record begins again.','LEVEL 1 · ARISE');}};document.querySelector('.sys-alert .alert-actions')?.appendChild(btn)},50)};
+}
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}load();checkDeadline();render();setInterval(()=>{let t=document.querySelector('#daily-timer');if(t)t.textContent=clockText()},1000);setInterval(()=>{let before=S.penalty&&S.penalty.date;checkDeadline();if((S.penalty&&S.penalty.date)!==before)render()},30000);if(!sessionStorage.getItem('solo-system-intro-shown')){sessionStorage.setItem('solo-system-intro-shown','1');setTimeout(()=>systemAlert('ARISE, PLAYER','System interface online. Your first-page attributes are ready. Complete real-life quests, claim XP, and allocate stat points as you level up.' ,'AWAKENING PROTOCOL: ACTIVE'),450)}
+setTimeout(()=>triggerThunder(false),250);
+</script>
+<style id="phone-performance-border-only">
+/* Performance pass: remove every ambient/background animation; animate borders only. */
+body::before,body::after,#thunder-canvas{display:none!important;animation:none!important;content:none!important;}
+*,*::before,*::after{animation:none!important;transition:none!important;will-change:auto!important;}
+.top,.card,.metric,.status-screen,.attr-tile,.body-training{animation:ariseBorderOnly 5.5s ease-in-out infinite!important;will-change:auto!important;}
+.top::before,.top::after,.card::before,.card::after,.status-screen::before,.status-screen::after,.status-screen .energy-border,.level-orb,.level-orb::before,.level-orb::after,.brand{animation:none!important;filter:none!important;will-change:auto!important;}
+@keyframes ariseBorderOnly{0%,100%{border-color:#21466e;box-shadow:0 0 5px #168cff0b,inset 0 0 4px #168cff03}50%{border-color:#3979a9;box-shadow:0 0 10px #168cff20,inset 0 0 5px #168cff05}}
+.penalty-banner{animation:arisePenaltyBorderOnly 3s ease-in-out infinite!important;}
+@keyframes arisePenaltyBorderOnly{0%,100%{border-color:#a92d4c;box-shadow:0 0 5px #ff174410}50%{border-color:#ff5278;box-shadow:0 0 11px #ff174426}}
+@media(prefers-reduced-motion:reduce){.top,.card,.metric,.status-screen,.attr-tile,.body-training,.penalty-banner{animation:none!important;}}
+</style>
+</body></html>
+<style id="monarch-rune-attributes">
+/* Shadow Monarch / System-window inspired attribute sigils */
+.attr-code{display:inline-grid;place-items:center;min-width:29px;height:29px;padding:0 5px;border:1px solid #8057d9;background:linear-gradient(145deg,#160d32,#07172b);color:#d9c5ff!important;font-family:serif;font-size:21px!important;line-height:1;text-shadow:0 0 7px #9b63ff,0 0 16px #3b8dff;box-shadow:inset 0 0 10px #8c4dff22,0 0 10px #673bcb30;clip-path:polygon(18% 0,82% 0,100% 18%,100% 82%,82% 100%,18% 100%,0 82%,0 18%)}
+.statcode{border-color:#8057d9!important;background:linear-gradient(145deg,#160d32,#07172b)!important;color:#d9c5ff!important;font-family:serif;font-size:23px!important;text-shadow:0 0 7px #9b63ff,0 0 16px #3b8dff;box-shadow:inset 0 0 10px #8c4dff22,0 0 10px #673bcb30;clip-path:polygon(18% 0,82% 0,100% 18%,100% 82%,82% 100%,18% 100%,0 82%,0 18%)}
+.attr-tile{border-color:#54378b;background:linear-gradient(145deg,#120d24,#071426)}
+.attr-bar span{background:linear-gradient(90deg,#6638d5,#45c8ff)!important;box-shadow:0 0 8px #9a64ff!important}
+</style>
+
+<style>
+/* PERFORMANCE MODE: preserve the aura look without expensive perpetual effects. */
+#thunder-canvas{display:none!important}
+.top,.card,.status-screen,.attr-tile,.metric,.body-training{animation:none!important}
+.top:before,.card:before,.status-screen:after,.status-screen .energy-border,.card:after,.level-orb:before,.level-orb:after{animation:none!important;will-change:auto!important}
+.top:before,.card:before{filter:none!important;opacity:.72!important}
+.status-screen{box-shadow:0 0 12px color-mix(in srgb,var(--energy) 10%,transparent),inset 0 0 14px #078dff08!important}
+.attr-tile{box-shadow:none!important}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<style id="lightweight-shadow-aura">
+/* Lightweight Shadow Monarch ambience: CSS-only, no canvas or particle JavaScript. */
+body{position:relative;isolation:isolate;background-color:#020306}
+body::before,body::after{content:"";position:fixed;inset:-12%;pointer-events:none;z-index:-1;will-change:transform,opacity}
+body::before{opacity:.27;background:radial-gradient(2px 2px at 8% 19%,#72e8ff 45%,transparent 70%),radial-gradient(2px 2px at 23% 76%,#a779ff 45%,transparent 70%),radial-gradient(1.5px 1.5px at 38% 33%,#ffbd79 45%,transparent 70%),radial-gradient(2px 2px at 61% 68%,#55cfff 45%,transparent 70%),radial-gradient(1.5px 1.5px at 78% 23%,#c19aff 45%,transparent 70%),radial-gradient(2px 2px at 91% 82%,#ffb76c 45%,transparent 70%);background-size:390px 330px;animation:dustDrift 32s linear infinite}
+body::after{opacity:.18;background:radial-gradient(ellipse at 12% 12%,#4b20a8 0,transparent 32%),radial-gradient(ellipse at 88% 32%,#073d72 0,transparent 35%),radial-gradient(ellipse at 55% 95%,#742a20 0,transparent 30%);animation:emberBreath 11s ease-in-out infinite alternate}
+.app{position:relative;z-index:1}
+@keyframes dustDrift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(1.5%,-1%,0)}100%{transform:translate3d(0,0,0)}}
+@keyframes emberBreath{0%{opacity:.12;transform:scale(1)}100%{opacity:.26;transform:scale(1.025)}}
+@keyframes borderOrbitLite{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes borderHeat{0%,100%{box-shadow:0 0 12px #168cff16,inset 0 0 16px #168cff08}50%{box-shadow:0 0 19px #8954ff20,0 0 28px #ff9b4a0a,inset 0 0 18px #168cff0c}}
+.top,.card{border-color:#344a78!important;animation:borderHeat 9s ease-in-out infinite!important}
+.top:before,.card:before{background:conic-gradient(from 0deg,#7deaff 0deg,transparent 34deg,transparent 72deg,#9c70ff 108deg,transparent 145deg,transparent 203deg,#ffb66d 242deg,transparent 278deg,transparent 322deg,#5ce7ff 360deg)!important;opacity:.7!important;filter:drop-shadow(0 0 3px #4dcfff55)!important;animation:borderOrbitLite 24s linear infinite!important;will-change:transform!important}
+.metric,.status-screen,.attr-tile,.body-training{border-color:#34466e!important;box-shadow:0 0 13px #168cff12,inset 0 0 16px #7755ff08!important;transition:border-color .25s,box-shadow .25s}
+.metric:hover,.status-screen:hover,.attr-tile:hover,.body-training:hover{border-color:#62dfff!important;box-shadow:0 0 18px #168cff24,inset 0 0 16px #7755ff0d!important}
+button{transition:transform .16s ease,border-color .2s,box-shadow .2s!important}
+button:hover{transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){body:before,body:after,.top,.card,.top:before,.card:before{animation:none!important;will-change:auto!important}button{transition:none!important}}
+
+/* FINAL OVERRIDE: static layout, only a gentle border glow/dim pulse. */
+body::before,body::after{display:none!important;animation:none!important;will-change:auto!important}
+.top:before,.card:before,.card:after,.status-screen:after,.level-orb:before,#thunder-canvas{display:none!important;animation:none!important;filter:none!important;will-change:auto!important}
+.top,.card,.metric,.status-screen,.attr-tile,.body-training{animation:borderLightBreathe 6s ease-in-out infinite!important;will-change:auto!important}
+.top,.card{border-color:#244c77!important}
+button:hover{transform:none!important}
+@media(max-width:760px){.top,.card,.metric,.status-screen,.attr-tile,.body-training{animation:none!important;box-shadow:inset 0 0 12px #168cff0b!important}}
+@media(prefers-reduced-motion:reduce){.top,.card,.metric,.status-screen,.attr-tile,.body-training,.penalty-banner{animation:none!important}}
+</style>
